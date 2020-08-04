@@ -1,5 +1,11 @@
 #GUI for company_search program
 
+#To-do:
+#Return items in a table (set out as table) - first three
+#Complete table ^
+#Check at least one result is returned
+#Make it beat
+
 from tkinter import *
 window = Tk()
 window.title("Companies House GUI search")
@@ -16,10 +22,14 @@ def search_api(search_string):
     if api_key == None:
         return 'ERROR','Please set the environment variable CH_API_KEY which should contain your API Key for Companies House API'
        
-    payload = {'q': search_string}
+    payload = {'q': search_string, 'items_per_page':30}
  
-    # Call API
-    server_address = 'https://api.companieshouse.gov.uk'
+# Call API
+    chs_base_url = os.environ.get('CHS_BASE_URL')
+    if chs_base_url == None:
+        chs_base_url = "api.companieshouse.gov.uk"
+ 
+    server_address = 'https://'  + chs_base_url
     url = server_address + '/search/companies'
     r = requests.get(url, params=payload, auth=(api_key, ''))
     if r.status_code != requests.codes.ok:
