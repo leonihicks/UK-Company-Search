@@ -131,28 +131,10 @@ def button_click():
     if company_results[1] == 0:
         return
  
-    # Display total results
-    num_data_records = len(company_results[2])
- 
+    # At least one row of data to display
     populate_heading()
-    for i in range(num_data_records):
-        for j in range(3):
-            frame = Frame(
-                master=window,
-                borderwidth=1
-            )
-            old_frames.append(frame)
-            frame.grid(row=8 + i, column=j, sticky=W)
-            if j == 0:
-                data = company_results[2][i].get('title')
-            elif j == 1:
-                data = company_results[2][i].get('company_number')
-            else:
-                data = company_results[2][i].get('company_status')
-            label = Label(master=frame, text=data)
-            label.pack()
  
- 
+    populate_companies(company_results[2])
 ### ---------------- Main Code
            
 ## Steps
