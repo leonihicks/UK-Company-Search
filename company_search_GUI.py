@@ -1,9 +1,4 @@
 #GUI for company_search program
-#To-do:
-#Complete table ^
-#Check at least one result is returned
-#Have fresh results - i.e. when you type in something new you cannot see the previous company behind
- 
  
 #         Company Name
 #         Company Number
@@ -56,11 +51,12 @@ def transform_company_data_api_to_display(company_data_api):
            ## TODO - as cli get default values
            'title': company_data_api['items'][i]['title'],
            'company_number': company_data_api['items'][i]['company_number'],
-     #      'date_of_incorportation': company_data_api['items'][i]['date_of_incorportation'],
+           'date_of_creation': company_data_api['items'][i]['date_of_creation'],
+        'address_snippet': company_data_api['items'][i]['address_snippet'],
       #     'company_jurisdiction': company_data_api['items'][i]['company_jurisdiction'],
            'company_status': company_data_api['items'][i].get('company_status','missing'),
           # 'action_code': company_data_api['items'][i]['action_code'],
-         #  'company_type': company_data_api['items'][i]['company_type'],
+        #   'company_type': company_data_api['items'][i]['company_type'],
         #   'accounts_overdue': company_data_api['items'][i]['accounts_overdue'],
     #       'CS01_overdue': company_data_api['items'][i]['CS01_overdue']
         }
@@ -79,7 +75,7 @@ def remove_old_frames():
     old_frames.clear()   
  
 def populate_heading():
-    for j in range(3):
+    for j in range(5):
         frame = Frame(
             master=window,
             borderwidth=1
@@ -90,8 +86,12 @@ def populate_heading():
             data = "Company Name"
         elif j == 1:
             data = "Number"
+        elif j == 2:
+            data = "Status" 
+        elif j == 3:
+            data = "Address"
         else:
-            data = "Status"
+            data = "Date of Creation"
         label = Label(master=frame, text=data)
         label.pack()
  
@@ -99,7 +99,7 @@ def populate_companies(companies):
  
     num_data_records = len(companies)
     for i in range(num_data_records):
-        for j in range(3):
+        for j in range(5):
             frame = Frame(
                 master=window,
                 borderwidth=1
@@ -110,8 +110,12 @@ def populate_companies(companies):
                 data = companies[i].get('title')
             elif j == 1:
                 data = companies[i].get('company_number')
-            else:
+            elif j == 2:
                 data = companies[i].get('company_status')
+            elif j == 3:
+                data = companies[i].get('address_snippet')
+            else:
+                data = companies[i].get('date_of_creation')
             label = Label(master=frame, text=data)
             label.pack()
  
