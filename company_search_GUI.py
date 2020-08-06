@@ -50,9 +50,9 @@ def transform_company_data_api_to_display(company_data_api):
  
            ## TODO - as cli get default values
            'title': company_data_api['items'][i]['title'],
-           'company_number': company_data_api['items'][i]['company_number'],
-           'date_of_creation': company_data_api['items'][i]['date_of_creation'],
-        'address_snippet': company_data_api['items'][i]['address_snippet'],
+           'company_number': company_data_api['items'][i].get('company_number','missing'),
+           'date_of_creation': company_data_api['items'][i].get('date_of_creation','missing'),
+        'address_snippet': company_data_api['items'][i].get('address_snippet','missing'),
       #     'company_jurisdiction': company_data_api['items'][i]['company_jurisdiction'],
            'company_status': company_data_api['items'][i].get('company_status','missing'),
           # 'action_code': company_data_api['items'][i]['action_code'],
@@ -126,10 +126,13 @@ def button_click():
  
     entered_text = entry1.get()
     status_text.delete(0.0, END)
+
     try:
         company_results = search_api(entered_text)
-    except:
-        company_results = 'ERROR',"Company not found."
+    except Exception as e:
+        print('Exception ' + str(e))
+        company_results = 'ERROR calling API.', 0, []
+ 
     status_text.insert(END, company_results[0] + " - " + str(company_results[1]) + " records available")
  
     if company_results[1] == 0:
