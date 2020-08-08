@@ -162,13 +162,14 @@ def populate_companies(companies):
  
     num_data_records = len(companies)
     for i in range(num_data_records):
+        # check status is okay for filter - (if statement) if the filter is all dont change, if filter is active) 
         for j in range(8):
             frame = Frame(
                 master=window,
                 borderwidth=1
             )
             old_frames.append(frame)
-            frame.grid(row=8 + i, column=j, sticky=W)
+            frame.grid(row=8 + i, column=j, sticky=W, padx=(10,10))
             if j == 0:
                 data = companies[i].get('title')
                 data = trim_string(data, 30)
@@ -176,6 +177,11 @@ def populate_companies(companies):
                 data = companies[i].get('company_number')
             elif j == 2:
                 data = companies[i].get('company_status')
+            #    if data == R2:
+                    
+            #    elif data == R3:
+
+             #   elif data == R4:
             elif j == 3:
                 data = companies[i].get('address_snippet')
                 data = trim_string(data, 50)
@@ -190,7 +196,28 @@ def populate_companies(companies):
             label = Label(master=frame, text=data)
             label.pack()
 
+def radio_buttons():
 
+    MODES = [
+        ("All", "1"),
+        ("Active", "2"),
+        ("Liquidation", "3"),
+        ("Dissolved", "4"),
+    ]
+
+    status_filter = StringVar()
+    status_filter.set("L") 
+
+    for text, mode in MODES:
+        R1 = Radiobutton(window, text=text,
+                    variable=status_filter, value=mode)
+        R2 = Radiobutton(window, text=text,
+                    variable=status_filter, value=mode)
+        R3 = Radiobutton(window, text=text,
+                    variable=status_filter, value=mode)
+        R4 = Radiobutton(window, text=text,
+                    variable=status_filter, value=mode)
+        
 # Creating a function for a button
 def button_click():
  
@@ -198,6 +225,7 @@ def button_click():
  
     entered_text = entry1.get()
     status_text.delete(0.0, END)
+    radio_buttons()
 
     try:
         company_results = search_api(entered_text)
@@ -214,7 +242,6 @@ def button_click():
     populate_heading()
  
     populate_companies(company_results[2])
-
 
 
 class Application(Frame):
@@ -266,6 +293,7 @@ class Application(Frame):
 Label(window, text="Enter company you want to search with: ").grid(row=0, column=0, sticky=W)
 Label(window, text="    ").grid(row=0, column=4, sticky=W)
 Label(window, text="    ").grid(row=0, column=7, sticky=W)
+Label(window, text="    ").grid(row=0, column=12, sticky=W)
 
 # Entry box for users input
  
@@ -274,27 +302,26 @@ entry1.grid(row=0, column=1,sticky=W)
  
 # Creating a button for user to submit answer written
  
-Button(window, text="SUBMIT", width=5, command=button_click, relief= tk.RAISED, fg = "blue").grid(row=0, column= 3, sticky=W)
+Button(window, text="SUBMIT", width=5, command=button_click, fg = "blue").grid(row=0, column= 3, sticky=W)
  
 # Creating an text box for API status to be  displayed
  
 status_text = Text(window, width=30, height =1.5, wrap=WORD, background= "light blue")
 status_text.grid(row=0, column=5, columnspan=2, sticky=W)
 
-#MODES = [
- #       ("Monochrome", "1"),
-    #    ("Grayscale", "L"),
-   #    ("True color", "RGB"),
-  #      ("Color separation", "CMYK"),
- #   ]
-#
-#v = StringVar()
-#v.set("L") # initialize
+#Creating radio buttons to filter a companies status
 
-#for text, mode in MODES:
-  #  b = Radiobutton(master, text=text,
-  #                  variable=v, value=mode)
-  #  b.pack(anchor=W)
+status_filter = IntVar()
+# specific to the status:
+# print off on button click in the status box what v is (maybe call it a fuller name such as status_filter) - to make sure it is working
+#go to button click 
+#
+
+
+R1 = Radiobutton(window, text="All", variable=status_filter, value=1, command = radio_buttons).grid(row=0, column= 8, sticky=W)
+R2 = Radiobutton(window, text="Active", variable=status_filter, value=2, command = radio_buttons).grid(row=0, column= 9, sticky=W)
+R3 = Radiobutton(window, text="Liquidation", variable=status_filter, value=3, command = radio_buttons).grid(row=0, column= 10, sticky=W)
+R4 = Radiobutton(window, text="Dissolved", variable=status_filter, value=4, command = radio_buttons).grid(row=0, column= 11, sticky=W)
 
 # list of any old frames that need to be tidied up after a new query
 old_frames = []
