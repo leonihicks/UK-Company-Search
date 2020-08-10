@@ -2,12 +2,14 @@
 
 ## Description 
 
+A GUI python program to search UK companies with an optional filter for company status. 
+
+In the search text you can either enter
+- The company name (a list of results will be returned)
+- The company number (just that company will be returned)
 
 
-## Setup
-
-
-### Windows
+## Set up for Windows
 
 Download python 3.7 from the Microsoft store (Windows 10)
 
@@ -24,8 +26,6 @@ pip3 install requests
 python3 company_search_GUI.py
 
 ```
-
-### Mac
 
 
 ## Environmental variables
