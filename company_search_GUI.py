@@ -157,6 +157,7 @@ def trim_string(data,size):
 def populate_companies(companies):
  
     num_data_records = len(companies)
+    data_number = 0 # if filter is used then not all data is displayed
     for i in range(num_data_records):
         # check status is okay for filter - (if statement) if the filter is all dont change, if filter is active)
         status_filter_value = str(status_filter.get())
@@ -168,7 +169,7 @@ def populate_companies(companies):
                 borderwidth=1
             )
             old_frames.append(frame)
-            frame.grid(row=8 + i, column=j, sticky=W, padx=(10,10))
+            frame.grid(row=8 + data_number, column=j, sticky=W, padx=(10,10))
             if j == 0:
                 data = companies[i].get('title')
                 data = trim_string(data, 30)
@@ -189,6 +190,8 @@ def populate_companies(companies):
                 data = companies[i].get('date_of_creation')
             label = Label(master=frame, text=data)
             label.pack()
+
+        data_number = data_number + 1
         
 # Creating a function for a button
 def button_click():
